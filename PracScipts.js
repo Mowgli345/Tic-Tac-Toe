@@ -1,3 +1,35 @@
+// const restartBtn = document.querySelector(".restart-btn");
+// restartBtn.addEventListener("click",(e)=>{
+//     let i;
+//         for (i=0; i<=8; i++) { 
+//             delete gameBoardObj.myBoard[i];
+//         }
+//     playGame();
+// })
+
+//debugger;
+
+const newGameBtn = document.querySelector(".newGame-btn");
+const nameBtn = document.getElementById("sendNames-btn");
+const nameInput1= document.getElementById("player-name1");
+const nameInput2= document.getElementById("player-name2");
+const form = document.querySelector(".form-container");
+
+newGameBtn.addEventListener("click",(e)=>{      //Shows player name input form
+    form.style.display="block";
+    });
+
+form.addEventListener("submit",(e)=>{
+   // debugger;
+    e.preventDefault();
+    newGame()
+}); 
+
+
+
+
+//*****************   FROM HERE   ************** */
+
 const gameBoardObj = {
     myBoard: [],
     displayGrid (){
@@ -63,21 +95,22 @@ const gameBoardObj = {
             }
         )
     },
-    setClickEvent(player){
+    setClickEvent(player,playerObjects){
         const square = document.querySelectorAll(".square");
         Array.from(square).forEach(function(square) {
             square.addEventListener("click",(e) => {
                     let arrayMarker = e.target.dataset.square;     
                     if (gameBoardObj.myBoard[arrayMarker]==undefined) {  
-                        debugger;                 
+                        // console.log(player);
+                        // console.log(playerObjects);                
                         square.textContent=player.marker;  
                         gameBoardObj.myBoard[arrayMarker]=player.marker;                             
-                        if (gameObj.checkWin() || gameObj.checkTie()) {
+                        if (gameObj.checkWin(playerObjects) || gameObj.checkTie()) {
                             gameBoardObj.displayGrid();
                             console.log("GAME ENDS");
                             return;
                         }
-                        else playGame()
+                        else playGame(playerObjects);
                         }; 
                     })
                 })
@@ -86,11 +119,13 @@ const gameBoardObj = {
 
 const gameObj = {
     turnCounter:0,
-        setTurn (y) {
-        let player1=y.player1;
-        let player2=y.player2;
+        setTurn (playerObjects) {
+            let player1=playerObjects.player1;
+            let player2=playerObjects.player2;
+
         function myTurn(player1, player2) {
             gameObj.turnCounter++;
+            console.log(`TurnCounter = ${gameObj.turnCounter}`)
             let nextPlayer;           
             if (gameObj.turnCounter%2!=0) {
                 nextPlayer = player1;
@@ -98,118 +133,130 @@ const gameObj = {
             else {
                 nextPlayer = player2;
              }
-            return nextPlayer;
+            return nextPlayer;            //Returns next player
         };
-        return myTurn(player1, player2);
+        return myTurn(player1, player2);  //This is where the players are returned
     },
-    checkWin() {
+
+    printWinner(marker, players) {
+        debugger;
+        // console.log(marker);
+        // console.log(players);
+        if (marker == players.player1.marker){
+            console.log(players.player1.name+ " wins!");
+            return true;
+        }
+        else console.log(players.player2.name+ " wins!")
+        return true;
+    },  
+
+    checkWin(playerObjects) {
+// debugger;
+        let players = playerObjects;
         let myBoard= gameBoardObj.myBoard;
+
+        // if (myBoard[0] !== undefined && myBoard[0]===myBoard[1]){
+        //     let marker = myBoard[0];
+        //     this.printWinner(marker,players);
+        //     return true;
+        // }
+
+
+//REAL 9-SQAURE VERSION        
         if (myBoard[0] != undefined && myBoard[0]===myBoard[1] && myBoard[1]===myBoard[2]){
             let marker = myBoard[0];
-            gameObj.printWinner(marker);
+            this.printWinner(marker, players);
             return true;
         }
         if (myBoard[3] !=undefined && myBoard[3]===myBoard[4] && myBoard[4]===myBoard[5]){
-            let marker = myBoard[0];
-            gameObj.printWinner(marker);
+            let marker = myBoard[3];
+            this.printWinner(marker, players);
             return true;
          }
         if (myBoard[6] !=undefined && myBoard[6]===myBoard[7] && myBoard[7]===myBoard[8]){
-            let marker = myBoard[0];
-            gameObj.printWinner(marker);
+            let marker = myBoard[6];
+            this.printWinner(marker, players);
             return true;
         }
         if (myBoard[0] !=undefined && myBoard[0]===myBoard[3] && myBoard[3]===myBoard[6]){
             let marker = myBoard[0];
-            gameObj.printWinner(marker);
+            this.printWinner(marker, players);
             return true;
         }
         if (myBoard[1] !=undefined && myBoard[1]===myBoard[4] && myBoard[4]===myBoard[7]){
-            let marker = myBoard[0];
-            gameObj.printWinner(marker);
+            let marker = myBoard[1];
+            this.printWinner(marker, players);
             return true;
         }
         if (myBoard[2] !=undefined && myBoard[2]===myBoard[5] && myBoard[5]===myBoard[8]){
-            let marker = myBoard[0];
-            gameObj.printWinner(marker);
+            let marker = myBoard[2];
+            this.printWinner(marker, players);
             return true;
         }
         if (myBoard[0] !=undefined && myBoard[0]===myBoard[4] && myBoard[4]===myBoard[8]){
             let marker = myBoard[0];
-            gameObj.printWinner(marker);
+            this.printWinner(marker, players);
             return true;
         }
         if (myBoard[2] !=undefined && myBoard[2]===myBoard[4] && myBoard[4]===myBoard[6]){
-            let marker = myBoard[0];
-            gameObj.printWinner(marker);
+            let marker = myBoard[2];
+            this.printWinner(marker, players);
             return true;
         }
         else return false;
     },
-    printWinner(marker) {
-        if (marker == player1.marker){
-            console.log(player1.name+ " wins!");
-            return true;
-        }
-        else console.log(player2.name+ " wins!")
-        return true;
-    },
+
     checkTie() {
+        //debugger;
         let i;
         for (i=0; i<=8; i++) {  
                 if (gameBoardObj.myBoard[i] == undefined) {  
+                    console.log(`Square ${i} = ${gameBoardObj.myBoard[i]}`);
                 return false;
                 }
             }    
+            console.log(gameBoardObj.myBoard[i]);
         console.log("It's a draw!");
         return true;
     },
 }
+    function Player(name,marker) {  
+        return {name, marker};
+    };
+    function getNames() {               
+        const playerName1 = nameInput1.value;
+        const playerName2 = nameInput2.value;
+        const player1 = Player(playerName1, "0");
+        const player2 = Player(playerName2, "X");
+        nameInput1.value = "";
+        nameInput2.value = "";
+        form.style.display="none";
+        // console.log(player1 + player2);
+        return {player1, player2};
+    };
 
-function Player(name,marker) {
-    return {name, marker};
-};
-function getNames() {
-    const playerName1 = nameInput1.value;
-    const playerName2 = nameInput2.value;
-    const player1 = Player(playerName1, "0");
-    const player2 = Player(playerName2, "X");
-    nameInput1.value = "";
-    nameInput2.value = "";
-    form.style.display="none";
-    return {player1, player2};
 
-};
-
-const restartBtn = document.querySelector(".restart-btn");
-const newGameBtn = document.querySelector(".newGame-btn");
-const nameBtn = document.getElementById("sendNames-btn");
-const nameInput1= document.getElementById("player-name1");
-const nameInput2= document.getElementById("player-name2");
-const form = document.querySelector(".form-container");
-
-restartBtn.addEventListener("click",(e)=>{
-    let i;
-        for (i=0; i<=8; i++) { 
-            delete gameBoardObj.myBoard[i];
-        }
-    playGame();
-})
-
-newGameBtn.addEventListener("click",(e)=>{
-    form.style.display="block";
-    });
-
-    form.addEventListener("submit",playGame);
-    
-function playGame () {
-    // debugger;
-    let y = getNames();
+function playGame (playerObjects) {
     gameBoardObj.displayGrid();
-    //debugger;
-    // console.log(y);
-    let x = gameObj.setTurn(y);
-    gameBoardObj.setClickEvent(x);    
+    // debugger;
+    console.log(playerObjects);
+    let nextPlayer = gameObj.setTurn(playerObjects);          //Passes players 1 and 2 to setTurn
+    gameBoardObj.setClickEvent(nextPlayer,playerObjects);      //Passes next player
 };
 
-playGame();
+function newGame () {
+    let playerObjects = getNames();
+    gameBoardObj.displayGrid();
+    let nextPlayer = gameObj.setTurn(playerObjects);          //Passes players 1 and 2 to setTurn
+    gameBoardObj.setClickEvent(nextPlayer,playerObjects);      //Passes next player
+};
+
+
+
+
+
+// form.addEventListener("submit",playGame); //Starts game. From here it seems to then run playGame again without names
+
+
+
+gameBoardObj.displayGrid();  //Displays initial grid

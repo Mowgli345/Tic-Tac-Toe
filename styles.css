@@ -15,6 +15,10 @@ body {
     align-items: center;
 } 
 
+.mainBoard {
+    /* outline: dotted red .5px;; */
+}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -22,8 +26,10 @@ body {
 
 .square {
     border: .5px solid rgb(119,30,30);
-    height:100px;
-    width:100px;
+    /* height:100px;
+    width:100px; */
+    height:60px;
+    width:60px;
     text-align: center;
     font-size: 48px;
     color:rgb(150,18,18);
