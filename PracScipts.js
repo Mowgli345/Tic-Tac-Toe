@@ -7,32 +7,43 @@
 //     playGame();
 // })
 
-//debugger;
 
 const newGameBtn = document.querySelector(".newGame-btn");
 const nameBtn = document.getElementById("sendNames-btn");
 const nameInput1= document.getElementById("player-name1");
 const nameInput2= document.getElementById("player-name2");
-const form = document.querySelector(".form-container");
+const form = document.querySelector("#addName");
+const playAgainBtn = document.getElementById("playAgain-btn");
+const exitBtn = document.getElementById("exit-btn");
+const btnRow = document.getElementById("result-btn-row");
+const result = document.getElementById("result");
+const winnerText = document.getElementById("winner-text");
+const nextTurn = document.getElementById("nextTurn");
+const namesDialog = document.querySelector("#playerNameDialog");
 
-newGameBtn.addEventListener("click",(e)=>{      //Shows player name input form
-    form.style.display="block";
+newGameBtn.addEventListener("click",(e)=>{     
+    namesDialog.showModal();
     });
 
 form.addEventListener("submit",(e)=>{
-   // debugger;
     e.preventDefault();
     newGame()
 }); 
 
+playAgainBtn.addEventListener("click",(e) =>{
+    playAgain();
+});
 
-
+exitBtn.addEventListener("click",(e)=>{
+    exitGame();
+})
 
 //*****************   FROM HERE   ************** */
 
 const gameBoardObj = {
     myBoard: [],
     displayGrid (){
+        const fragment = document.createDocumentFragment();
         const gameBoard = document.querySelector(".gameBoard");
         const row1 = document.createElement("div");
         const row2 = document.createElement("div");
@@ -74,26 +85,28 @@ const gameBoardObj = {
             gameBoard.removeChild(gameBoard.firstChild);
         }
 
-        gameBoard.appendChild(row1);
+        fragment.appendChild(row1);
             row1.appendChild(square0);
             row1.appendChild(square1);
             row1.appendChild(square2);
-        gameBoard.appendChild(row2);
+        fragment.appendChild(row2);
             row2.appendChild(square3);
             row2.appendChild(square4);
             row2.appendChild(square5);
-        gameBoard.appendChild(row3);
+        fragment.appendChild(row3);
             row3.appendChild(square6);
             row3.appendChild(square7);
             row3.appendChild(square8);
+        
+        gameBoard.appendChild(fragment);
 
         const square = document.querySelectorAll(".square");
         let i=0;
         Array.from(square).forEach((item)=> { 
             item.textContent= gameBoardObj.myBoard[i];
             i++;
-            }
-        )
+            }        
+            )
     },
     setClickEvent(player,playerObjects){
         const square = document.querySelectorAll(".square");
@@ -101,8 +114,7 @@ const gameBoardObj = {
             square.addEventListener("click",(e) => {
                     let arrayMarker = e.target.dataset.square;     
                     if (gameBoardObj.myBoard[arrayMarker]==undefined) {  
-                        // console.log(player);
-                        // console.log(playerObjects);                
+             
                         square.textContent=player.marker;  
                         gameBoardObj.myBoard[arrayMarker]=player.marker;                             
                         if (gameObj.checkWin(playerObjects) || gameObj.checkTie()) {
@@ -119,7 +131,7 @@ const gameBoardObj = {
 
 const gameObj = {
     turnCounter:0,
-        setTurn (playerObjects) {
+    setTurn (playerObjects) {
             let player1=playerObjects.player1;
             let player2=playerObjects.player2;
 
@@ -129,40 +141,35 @@ const gameObj = {
             let nextPlayer;           
             if (gameObj.turnCounter%2!=0) {
                 nextPlayer = player1;
+                nextTurn.innerHTML=(`${player1.name} - make your move!`);
             }
             else {
                 nextPlayer = player2;
+                nextTurn.innerHTML=(`${player2.name} - make your move!`);
              }
             return nextPlayer;            //Returns next player
         };
         return myTurn(player1, player2);  //This is where the players are returned
     },
-
     printWinner(marker, players) {
-        debugger;
-        // console.log(marker);
-        // console.log(players);
+        result.showModal();
         if (marker == players.player1.marker){
+            winnerText.innerHTML=(`${players.player1.name} wins!`);
             console.log(players.player1.name+ " wins!");
             return true;
         }
-        else console.log(players.player2.name+ " wins!")
+        else {
+            winnerText.innerHTML=(`${players.player2.name} wins!`);
+            result.appendChild(winnerText);
+            console.log(players.player2.name+ " wins!")
+        }
         return true;
     },  
-
     checkWin(playerObjects) {
 // debugger;
         let players = playerObjects;
         let myBoard= gameBoardObj.myBoard;
-
-        // if (myBoard[0] !== undefined && myBoard[0]===myBoard[1]){
-        //     let marker = myBoard[0];
-        //     this.printWinner(marker,players);
-        //     return true;
-        // }
-
-
-//REAL 9-SQAURE VERSION        
+   
         if (myBoard[0] != undefined && myBoard[0]===myBoard[1] && myBoard[1]===myBoard[2]){
             let marker = myBoard[0];
             this.printWinner(marker, players);
@@ -205,9 +212,7 @@ const gameObj = {
         }
         else return false;
     },
-
     checkTie() {
-        //debugger;
         let i;
         for (i=0; i<=8; i++) {  
                 if (gameBoardObj.myBoard[i] == undefined) {  
@@ -220,43 +225,53 @@ const gameObj = {
         return true;
     },
 }
-    function Player(name,marker) {  
-        return {name, marker};
-    };
-    function getNames() {               
-        const playerName1 = nameInput1.value;
-        const playerName2 = nameInput2.value;
-        const player1 = Player(playerName1, "0");
-        const player2 = Player(playerName2, "X");
-        nameInput1.value = "";
-        nameInput2.value = "";
-        form.style.display="none";
-        // console.log(player1 + player2);
-        return {player1, player2};
-    };
 
+
+function Player(name,marker) {  
+    return {name, marker};
+};
+function getNames() {               
+    const playerName1 = nameInput1.value;
+    const playerName2 = nameInput2.value;
+    const player1 = Player(playerName1, "0");
+    const player2 = Player(playerName2, "X");
+    // nameInput1.value = "";
+    // nameInput2.value = "";
+    namesDialog.close();
+    return {player1, player2};
+};
 
 function playGame (playerObjects) {
     gameBoardObj.displayGrid();
-    // debugger;
     console.log(playerObjects);
     let nextPlayer = gameObj.setTurn(playerObjects);          //Passes players 1 and 2 to setTurn
     gameBoardObj.setClickEvent(nextPlayer,playerObjects);      //Passes next player
 };
-
 function newGame () {
     let playerObjects = getNames();
     gameBoardObj.displayGrid();
     let nextPlayer = gameObj.setTurn(playerObjects);          //Passes players 1 and 2 to setTurn
     gameBoardObj.setClickEvent(nextPlayer,playerObjects);      //Passes next player
 };
-
-
-
-
-
-// form.addEventListener("submit",playGame); //Starts game. From here it seems to then run playGame again without names
-
-
-
 gameBoardObj.displayGrid();  //Displays initial grid
+
+function playAgain() {
+
+    let myBoard= gameBoardObj.myBoard;
+    myBoard.length=0;
+    gameObj.turnCounter=0;
+    let playerObjects = getNames();
+    playGame(playerObjects);
+}
+
+function exitGame() {
+    result.close();
+    nameInput1.value = "";
+    nameInput2.value = "";
+    gameBoardObj.myBoard.length=0;
+    gameBoardObj.displayGrid();
+    nextTurn.innerHTML="";
+
+
+}
+
