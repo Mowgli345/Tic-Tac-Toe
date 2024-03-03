@@ -9,22 +9,46 @@
 
 <body>
     <button class = "restart-btn">Restart</button>
-    <button class = "newGame-btn">New Game</button>
+    <button id = "newGame-btn">New Game</button>
 
-<dialog id="playerNameDialog">
-    <form id="addName">
+
+    <!-- Choose 1 or 2 Player Game -->
+<dialog id="gameMode">
+    <div id="gameModeContainer">
+        <button id="onePlayer-btn">1 Player</button>
+        <button id="twoPlayer-btn">2 Players</button>
+    </div>
+</dialog>
+
+
+<!-- Enter Name for 1-Player Game -->
+<dialog id="onePlayerNameDialog">
+    <form id="onePlayerNameForm">
         <div class="name-entry">
-            <label for="player-name1">Enter Player 1 Name:</label>
-            <input type="text" id="player-name1" name="player-name" value="">
+            <label for="player-name1">Enter your name:</label>
+            <input type="text" id="onePlayer-name" name="player-name" value="">
         </div>
-        <div class="name-entry">
-            <label for="player-name2">Enter Player 2 Name:</label>
-            <input type="text" id="player-name2" name="player-name" value="">
-        </div>
-        <input id="play-btn" type="submit" value="Let's Play!">
+        <input class = "play-btn" id="1PlayerStart-btn" type="submit" value="Let's Play!">
     </form>
 </dialog>
 
+<!-- Enter Name for 2-Player Game -->
+<dialog id="twoPlayerNameDialog">
+    <form id="twoPlayerNameForm">
+        <div class="name-entry">
+            <label for="player-name1">Enter Player 1 Name:</label>
+            <input type="text" id="twoPlayer-name1" name="twoPlayer-name1" value="">
+        </div>
+        <div class="name-entry">
+            <label for="player-name2">Enter Player 2 Name:</label>
+            <input type="text" id="twoPlayer-name2" name="player-name" value="">
+        </div>
+        <input class="play-btn" id="2PlayerStart-btn" type="submit" value="Let's Play!">
+    </form>
+</dialog>
+
+
+<!-- Show Result, Play Again or Exit -->
 <dialog id="result">
     <div id="winner-text"></div>
     <div id="result-btns-row">
@@ -33,9 +57,19 @@
     </div>
 </dialog>
 
-<div class="gameBoard mainBoard"></div>
+<div class="gameBoard"></div>
 
+<!-- Show next player -->
 <div id="nextTurn"></div>
+
+<!-- Display scores -->
+<div id="scores">
+        <div class = "player-name" id="player1-name">Player 1</div>
+        <div class = "player-name" id="player2-name">Player 2</div>
+        <div class="player-score" id="player1-score">0</div>
+
+        <div class="player-score" id="player2-score">0</div>
+</div>
 
 
 
