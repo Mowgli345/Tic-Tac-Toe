@@ -144,8 +144,7 @@ button {
     font-size: 1.3rem;
     text-align: center;
     gap:16px 2px;
-    
-}
+    }
 
 body >div{
     /* outline:dotted thistle .4px; */
@@ -172,4 +171,58 @@ body >div{
     width:80%;
     height: 60px;
     font-size: 1.8em;
+}
+
+@media  screen and (max-width:400px) {
+    .square {
+        height: 70px;
+        width: 70px;
+        font-size: 35px;
+    }
+    form {
+        width:350px;
+    }
+    dialog {
+        width:350px;
+    }
+    input {
+        font-size: 12px;
+        margin-left: 3px;
+        padding:6px;
+    }
+    button {
+        color:white;
+        background-color:var(--custom-brown);
+        padding:6px 3px;
+        border:none;
+        font-size: 1rem;
+    }
+    .player-name {
+        font-size: 1.2rem;
+    }
+    
+    .player-score {
+        font-size: 1.8rem;
+    }
+    #nextTurn {
+        font-size: 1.2rem;
+    }
+    #scores {
+        font-size: 1.3rem;
+        text-align: center;
+        gap:10px 2px;        
+    }
+    #gameModeContainer {
+        gap:30px;
+    }
+    
+    #gameMode button {
+        width:70%;
+        height: 40px;
+        font-size: 1.2em;
+    }
+    .name-entry {
+        margin: 0px 0;
+    }
+
 }

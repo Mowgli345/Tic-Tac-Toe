@@ -1,0 +1,66 @@
+FILES
+PracDOMScripts - works okay except for player names being hard coded as globals
+PracScripts - doesn't display initial grid
+ - when playGame finihses running, loops back and does everything agin, not saving player names
+ Script with Player Name s- from PracDomScripts - trying to get playe rnames in. Modified for 3 sqaueare
+   - ISSUE - after running getNames, goes back to top and runs all events etc again
+
+
+Objects
+1. Gameboard - stores gameboard array x1
+2. Players x2
+3. GameFlow x1
+4. displayController x1 (?)
+
+Single instances - wrap factory inside IIFE
+
+Each item of functioanlity should fit in the game, player or GameBoard objects
+
+
+Steps
+1. Get a working game in the console
+2. Create object to handle display/DOM
+ - write function to render contents of gameboard array to webpage
+3. Function - allow player to input marker on page (DOM element). 
+Function - prevent taking an already taken place
+
+4. Allow to add names, start/restart button, display results
+
+Logic Needed
+GameOver - wins and ties
+
+
+Points
+Minimise global code
+Use factories where possible
+For single instances (Eg. gameboard, displayController) - wrap factory inside IIFE module pattern
+
+Each piece of functionality should fit in game, player or gamebaord objects
+
+
+Now - GameOver - ties, winner
+
+
+Object 1 - Game
+
+
+
+Object 2 - GameBoard
+
+
+Object 3 - Player
+
+
+TO DO
+Edit dispalyGrid - use loop to create elements incl. dataset numbers
+Player -> to a single Player object
+CheckWin - edit for Player 1 and Player 2
+Play Again
+Reset
+Edit names input to different dialogue screens  - maybe using promise....
+
+
+
+
+
+

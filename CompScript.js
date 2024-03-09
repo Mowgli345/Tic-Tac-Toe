@@ -1,10 +1,9 @@
-// const restartBtn = document.querySelector(".restart-btn");
-
 let player1Wins=0;
 let player2Wins=0;
 let compGame;
 
 const newGameBtn = document.getElementById("newGame-btn");
+const restartBtn = document.getElementById("restart-btn");
 
 const gameModeDialog = document.getElementById("gameMode");
     const onePlayerGame = document.getElementById("onePlayer-btn");
@@ -38,9 +37,7 @@ const p2name = document.getElementById("player2-name");
 
 const nextTurn = document.getElementById("nextTurn");
 
-// const nameBtn = document.getElementById("sendNames-btn");
-//const nameInput1= document.getElementById("player-name1");
-// const btnRow = document.getElementById("result-btn-row");
+
 
 //  ******* Game Board Object ****************
 const gameBoardObj = {
@@ -111,25 +108,24 @@ const gameBoardObj = {
             }        
             )
     },
-    setClickEvent(player,playerObjects){
+    setClickEvent(player,playerObjects){  //Assigns event listenr to all squares
         const squares = document.querySelectorAll(".square");
         Array.from(squares).forEach((square) => {
             square.addEventListener("click", squInput)
-        });
-            
-function squInput(square) {    //Event Listenter to allow player input
-    let arrayMarker = square.target.dataset.square;     
-    if (gameBoardObj.myBoard[arrayMarker]==undefined) {             
-        square.textContent=player.marker;  
-        gameBoardObj.myBoard[arrayMarker]=player.marker;                             
-        if (gameObj.checkWin(playerObjects) || gameObj.checkTie()) {
-            gameBoardObj.displayGrid();
-            return;
-            }
-        else playGame(playerObjects);
-        }; 
-    }                  
-    }
+        });            
+    function squInput(square) {    //Event Listenter to allow player input
+        let arrayMarker = square.target.dataset.square; 
+        if (gameBoardObj.myBoard[arrayMarker]==undefined) {             
+            square.textContent=player.marker;  
+            gameBoardObj.myBoard[arrayMarker]=player.marker;                              
+            if (gameObj.checkWin(playerObjects) || gameObj.checkTie()) { 
+                gameBoardObj.displayGrid(); 
+                return;
+                }             
+            else playGame(playerObjects);
+            }; 
+        }                  
+        }
 }
 
 // 1st - Shows 1 or 2 Player Game
@@ -152,6 +148,30 @@ newGameBtn.addEventListener("click",(e)=>{
         });
 });
 
+//  ********** 1-Player Game ***************
+onePlayerNameForm.addEventListener("submit",(e)=>{  //Closes names dialog, invokes newCompGame()
+    e.preventDefault();
+    oneNameDialog.close();
+    newCompGame()
+}); 
+function newCompGame () {   // Invoked on 1-Player Let's Play button -   
+    gameBoardObj.myBoard.length=0;
+    gameObj.turnCounter=0;
+    let playerObjects = getCompNames();
+    gameBoardObj.displayGrid(); 
+    let nextPlayer = gameObj.setTurnComp(playerObjects);         
+    gameBoardObj.setClickEvent(nextPlayer,playerObjects);    
+};
+function getCompNames() {          //Gets Player Names for 1-player game
+    // const playerName1 = onePlayerName.value;
+    const playerName1 = "Jimmy";
+    const player1 = Player(playerName1, "0");
+    const player2 = Player("Computer", "X");
+    p1name.innerHTML=(`${playerName1}`);
+    p2name.innerHTML=(`${player2.name}`);
+    return {player1, player2};
+};
+
 // ******** 2-Player Game *********
 function getNames() {               //Gets Player Names for 2-player game
     const playerName1 = twoPlayerName1.value;
@@ -163,14 +183,13 @@ function getNames() {               //Gets Player Names for 2-player game
     p2name.innerHTML=(`${playerName2}`);
     return {player1, player2};
 };
-
 twoPlayerNameForm.addEventListener("submit",(e)=>{
     e.preventDefault();
     new2Game()
 });  
-
-function new2Game () {               // Runs when Let's Play button hit on 2-player names input form
+function new2Game () {  // Runs when Let's Play button hit on 2-player names input form
     gameBoardObj.myBoard.length=0;
+    gameObj.turnCounter=0;
     let playerObjects = getNames();
     gameBoardObj.displayGrid();
     let nextPlayer = gameObj.setTurn(playerObjects);          //Passes players 1 and 2 to setTurn
@@ -178,95 +197,16 @@ function new2Game () {               // Runs when Let's Play button hit on 2-pla
 };
 
 
-//  ********** 1-Player Game ***************
-function getCompNames() {          //Gets Player Names for 1-player game
-    const playerName1 = onePlayerName.value;
-    const player1 = Player(playerName1, "0");
-    const player2 = Player("Computer", "X");
-    p1name.innerHTML=(`${playerName1}`);
-    p2name.innerHTML=(`${player2.name}`);
-    return {player1, player2};
-};
-
-onePlayerNameForm.addEventListener("submit",(e)=>{
-    e.preventDefault();
-    oneNameDialog.close();
-    newCompGame()
-}); 
-
-function newCompGame () {   // Runs when Let's Play button hit on 1-player names input form
-    gameBoardObj.myBoard.length=0;
-    let playerObjects = getCompNames();
-    gameBoardObj.displayGrid(); 
-    let nextPlayer = gameObj.setTurnComp(playerObjects);          //Passes players 1 and 2 to setTurn
-    gameBoardObj.setClickEvent(nextPlayer,playerObjects);      //Passes next player
-};
-
-
-// ************* Player Functions *****************
-function Player(name,marker) {  
-    return {name, marker};
-};
-function playGame (playerObjects) {     //Allows next player to take their turn
-    gameBoardObj.displayGrid();
-    if (compGame) {
-    let nextPlayer = gameObj.setTurnComp(playerObjects);          //Passes players 1 and 2 to setTurn
-    gameBoardObj.setClickEvent(nextPlayer,playerObjects);      //Passes next player
-    }
-    else {
-        let nextPlayer = gameObj.setTurn(playerObjects);          //Passes players 1 and 2 to setTurn
-        gameBoardObj.setClickEvent(nextPlayer,playerObjects);      //Passes next player
-    }
-};
-
-//  ********END GAME************
-
-playAgainBtn.addEventListener("click",(e) =>{
-    playAgain();
-});
-
-exitBtn.addEventListener("click",(e)=>{
-    exitGame();
-})
-
-function playAgain() {          //Starts a new new game after pervious game won, with same players
-    let myBoard= gameBoardObj.myBoard;
-    myBoard.length=0;
-    gameObj.turnCounter=0;
-    let playerObjects = getNames();
-    playGame(playerObjects);
-    result.close();
-}
-
-function exitGame() {   //Resets everything at end of game
-    result.close();
-    // debugger;
-    compGame=false;
-    twoPlayerName1.value = "";
-    twoPlayerName2.value = "";
-    player1Wins=0;
-    player2Wins=0;
-    p1score.innerHTML="";
-    p2score.innerHTML="";
-    p1name.innerHTML="";
-    p2name.innerHTML="";
-    gameBoardObj.myBoard.length=0;
-    gameBoardObj.displayGrid();
-    nextTurn.innerHTML="";
-}
-
-gameBoardObj.displayGrid();  //Displays initial grid
-
-
+// GameObject - contains turn-taking and results
 const gameObj = {
     turnCounter:0,
-    setTurn (playerObjects) {
+    setTurn (playerObjects) { //Sets turn for 2-Player game
             let player1=playerObjects.player1;
             let player2=playerObjects.player2;
 
         function myTurn(player1, player2) {
             gameObj.turnCounter++;
-            let nextPlayer;           
+            let nextPlayer;        
             if (gameObj.turnCounter%2!=0) {
                 nextPlayer = player1;
                 nextTurn.innerHTML=(`${player1.name} - make your move!`);
@@ -282,23 +222,22 @@ const gameObj = {
     setTurnComp (playerObjects) {
         let player1=playerObjects.player1;
         let player2=playerObjects.player2;
+        let nextPlayer;
 
     function myTurnComp (player1, player2) {
         gameObj.turnCounter++;
-        let nextPlayer;           
         if (gameObj.turnCounter%2!=0) {
             nextPlayer = player1;
             nextTurn.innerHTML=(`${player1.name} - make your move!`);
         }
-        else {
-            nextPlayer = player2;
-            console.log("Computer turn");
-            nextTurn.innerHTML=(`${player2.name} - make your move!`);
-         }
-        return nextPlayer;            //Returns next player
-    };
-    return myTurnComp(player1, player2);  //This is where the players are returned
-},
+        else {      
+            nextPlayer = player2;  
+            nextTurn.innerHTML=(`It's ${player2.name}'s move!`);
+            } 
+        return nextPlayer;           
+        };
+        return myTurnComp(player1, player2, nextPlayer); 
+    },
     printWinner(marker, players) {
         result.showModal();
         if (marker == players.player1.marker){
@@ -372,3 +311,177 @@ const gameObj = {
         return true;
     },
 }
+
+
+// ************* Player Functions *****************
+function Player(name,marker) {  
+    return {name, marker};
+};
+function playGame (playerObjects) {     //Allows next player to take their turn
+    gameBoardObj.displayGrid();
+
+    if (compGame) {
+
+        let nextPlayer = gameObj.setTurnComp(playerObjects);  //Pass P1 & P2 to setTurn
+            if (nextPlayer.name=="Computer") {
+                let p2marker = nextPlayer.marker;
+                console.log("Computer about to enter move");
+                computerMoveLogic(p2marker);
+                    if (gameObj.checkWin(playerObjects) || gameObj.checkTie()) {  
+                        gameBoardObj.displayGrid();  //To end game on win/tie only
+                        return;
+                        }
+
+                else {      //Runs if Comp move is not win/tie
+                    gameBoardObj.displayGrid();
+                    nextPlayer=gameObj.setTurnComp(playerObjects); 
+                    gameBoardObj.setClickEvent(nextPlayer,playerObjects);  
+                    };    
+                };
+                gameBoardObj.setClickEvent(nextPlayer,playerObjects);                           
+        }
+
+// ********* 2-Player Game Logic ***************
+    else {    ////This is for 2-Player Game
+        let nextPlayer = gameObj.setTurn(playerObjects);          
+        gameBoardObj.setClickEvent(nextPlayer,playerObjects);     
+    }
+};
+
+//  ********END GAME************
+
+playAgainBtn.addEventListener("click",(e) =>{
+    playAgain();
+});
+exitBtn.addEventListener("click",(e)=>{
+    exitGame();
+});
+restartBtn.addEventListener("click",(e)=>{
+    restartGame();
+});
+
+function playAgain() {          //Starts new new game, same players
+    let myBoard= gameBoardObj.myBoard;
+    myBoard.length=0;
+    gameObj.turnCounter=0;
+    let playerObjects;
+    if (compGame) {
+        playerObjects = getCompNames();
+    }
+    else {
+        playerObjects = getNames();
+    }
+    playGame(playerObjects);
+    result.close();
+}
+
+function restartGame() {   //Resets everything at end of game
+ if (compGame) {
+    newCompGame();
+ }
+ else {
+    new2Game();
+ }
+}
+
+
+function exitGame() {   //Resets everything at end of game
+    result.close();
+    compGame=false;
+    twoPlayerName1.value = "";
+    twoPlayerName2.value = "";
+    player1Wins=0;
+    player2Wins=0;
+    p1score.innerHTML="";
+    p2score.innerHTML="";
+    p1name.innerHTML="";
+    p2name.innerHTML="";
+    gameBoardObj.myBoard.length=0;
+    gameBoardObj.displayGrid();
+    nextTurn.innerHTML="";
+}
+
+gameBoardObj.displayGrid();  //Displays initial grid
+
+function computerMoveLogic(p2marker) {
+    let myBoard= gameBoardObj.myBoard;   
+        if (myBoard[0] != undefined && myBoard[0]===myBoard[1]&&myBoard[2]==undefined){
+            myBoard[2]=p2marker;
+        }
+        else if (myBoard[0] != undefined && myBoard[0]===myBoard[2]&&myBoard[1]==undefined){
+            myBoard[1]=p2marker;
+        }
+        else if (myBoard[2] != undefined && myBoard[1]===myBoard[2]&&myBoard[1]==undefined){
+            myBoard[1]=p2marker;
+        }
+        else if (myBoard[3] != undefined && myBoard[3]===myBoard[4]&&myBoard[5]==undefined){
+            myBoard[5]=p2marker;
+        }
+        else if (myBoard[3] != undefined && myBoard[3]===myBoard[5]&&myBoard[4]==undefined){
+            myBoard[4]=p2marker;
+        }
+        else if (myBoard[4] != undefined && myBoard[4]===myBoard[5]&&myBoard[3]==undefined){
+            myBoard[3]=p2marker;
+        }   
+        else if (myBoard[6] != undefined && myBoard[6]===myBoard[7]&&myBoard[8]==undefined){
+            myBoard[8]=p2marker;
+        }
+        else if (myBoard[6] != undefined && myBoard[6]===myBoard[8]&&myBoard[7]==undefined){
+            myBoard[7]=p2marker;
+        }
+        else if (myBoard[7] != undefined && myBoard[7]===myBoard[8]&&myBoard[6]==undefined){
+            myBoard[6]=p2marker;
+        }    
+        else if (myBoard[0] != undefined && myBoard[0]===myBoard[3]&&myBoard[6]==undefined){
+            myBoard[6]=p2marker;
+           }
+        else if (myBoard[0] != undefined && myBoard[0]===myBoard[6]&&myBoard[3]==undefined){
+            myBoard[3]=p2marker;
+        }
+        else if (myBoard[3] != undefined && myBoard[3]===myBoard[6]&&myBoard[0]==undefined){
+            myBoard[0]=p2marker;
+        }
+        else if (myBoard[1] != undefined && myBoard[1]===myBoard[4]&&myBoard[8]==undefined){
+            myBoard[8]=p2marker;
+        }
+        else if (myBoard[1] != undefined && myBoard[1]===myBoard[8]&&myBoard[4]==undefined){
+            myBoard[4]=p2marker;
+        }
+        else if (myBoard[4] != undefined && myBoard[4]===myBoard[8]&&myBoard[1]==undefined){
+            myBoard[1]=p2marker;
+        }
+        else if (myBoard[2] != undefined && myBoard[2]===myBoard[5]&&myBoard[8]==undefined){
+            myBoard[8]=p2marker;
+        }
+        else if (myBoard[2] != undefined && myBoard[2]===myBoard[8]&&myBoard[5]==undefined){
+            myBoard[5]=p2marker;
+        }
+        else if (myBoard[5] != undefined && myBoard[5]===myBoard[8]&&myBoard[2]==undefined){
+            myBoard[2]=p2marker;
+        }
+        else if (myBoard[0] != undefined && myBoard[0]===myBoard[4]&&myBoard[8]==undefined){
+            myBoard[8]=p2marker;
+        }
+        else if (myBoard[0] != undefined && myBoard[0]===myBoard[8]&&myBoard[4]==undefined){
+            myBoard[4]=p2marker;
+        }
+        else if (myBoard[4] != undefined && myBoard[4]===myBoard[8]&&myBoard[0]==undefined){
+            myBoard[0]=p2marker;
+        }
+        else if (myBoard[2] != undefined && myBoard[2]===myBoard[4]&&myBoard[6]==undefined){
+            myBoard[6]=p2marker;
+        }
+        else if (myBoard[2] != undefined && myBoard[2]===myBoard[6]&&myBoard[4]==undefined){
+            myBoard[4]=p2marker;
+        }
+        else if (myBoard[4] != undefined && myBoard[4]===myBoard[6]&&myBoard[2]==undefined){
+            myBoard[2]=p2marker;
+        }
+       else {
+           let x;
+           do {           
+            x = Math.floor(Math.random()*8);
+            } while (myBoard[x]!=undefined);
+       myBoard[x]= p2marker;
+    };
+   };
