@@ -4,106 +4,127 @@ body {
     box-sizing: border-box;
     font-family: "Comic Sans MS","Comic Sans", cursive;
     --custom-brown: rgb(119,30,30);
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+}
+.body-wrapper {
+    margin-top: 40px;
+    width: 490px;
 }
 
 .gameBoard {
-    margin-top: 100px;
+    margin:70px 0 45px;
     display: flex;
     flex-direction: column; 
     justify-content: center;
     align-items: center;
 } 
-
 .row {
     display: flex;
     flex-direction: row;
 }
-
 .row1 {
     border-bottom: 2px solid var(--custom-brown);
 }
-
 .row3{
     border-top: 3px solid var(--custom-brown);
 }
-
+.row :first-child{
+    border-left: none;
+}
 .square {
     border-left: 3px solid var(--custom-brown);
     height:100px;
     width:100px;
     text-align: center;
-    font-size: 60px;
+    font-size: 65px;
     color:var(--custom-brown);
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    /* font-family:"comic sans ms"; */
 }
-
-.row :first-child{
-    border-left: none;
-}
-
 form {
     border-radius: 4px;
     text-align: center;
     font-size: 20px;    
-    width:500px;   
+    /* width:480px;    */
     color: var(--custom-brown);
 }
-
 dialog {
     border:none;
     border-radius: 4px;
-    width: 500px;
+    padding:9px 0;
+    width: 400px;
+    font-family: Arial, Helvetica, sans-serif;
 }
-
-input {
-    padding: 10px;
-    font-size:20px;
-    border: 1px solid var(--custom-brown);
-    margin-left: 6px;
-    border-radius: 3px;
-}
-
-input:focus {
-    outline: 1.3px solid var(--custom-brown);
-
-}
-.play-btn {
-    margin-top: 10px;
-    border-radius: 3px;
-    color:white;
-    background-color:var(--custom-brown);
-}
-
-button {
-    border-radius: 3px;
-    color:white;
-    background-color:var(--custom-brown);
-    font-size: 1rem;
-}
-
 .name-entry {
     margin: 20px 0;
 }
-
+input {
+    padding: 10px;
+    font-size:20px;
+    border: 1.3px solid var(--custom-brown);
+    margin-left: 6px;
+    border-radius: 3px;
+}
+input:focus {
+    outline: 1.4px solid var(--custom-brown);
+}
+button {
+    color:white;
+    background-color:var(--custom-brown);
+    padding:10px 8px;
+    border:none;
+    font-size: 1.4rem;
+    border-radius: 4px;
+}
+.play-btn {
+    margin-top: 10px;
+    background-color: var(--custom-brown);
+    color: white;
+}
+#top-row-btns {
+    display: flex;
+    justify-content: space-between;
+}
+#newGame-btn,#restart-btn {
+    width:130px;
+}
+#gameMode {
+    margin-top: 305px;
+}
+#gameModeContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap:30px;
+}
+#gameMode button {
+    width:40%;
+    height: 50px;
+    font-size: 1.4em;
+}
+#onePlayerNameDialog {
+    margin-top: 250px;
+}
+#twoPlayerNameDialog {
+    margin-top: 200px;
+}
 .sendNames-btn {
     width:100%;
 }
-
 #result {
-    margin-top: 100px;
     text-align: center;
     color:var(--custom-brown);
-    /* font-size: 4rem; */
     font-size: 2rem;   
     padding:20px 40;
+    margin-top: 500px;
+    width:400px;
 }
-
 #result-btns-row button {
-    margin-top: 10px;
+    margin-top: 7px;
     border-radius: 3px;
     color:white;
     background-color:var(--custom-brown);
@@ -111,79 +132,67 @@ button {
     font-size: 1.2rem;
     width:120px;
 }
-
 #result-btns-row {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     gap:80px;
 }
-
-button {
-    color:white;
-    background-color:var(--custom-brown);
-    padding:10px 5px;
-    border:none;
-    font-size: 1.4rem;
-}
-
 #nextTurn {
     color:var(--custom-brown);
-    margin-top: 25px;
     text-align: center;
     font-size: 1.8rem;
+    font-weight: bold;
 }
-
 #scores {
-    margin-top: 34px;
+    margin-top: 55px;
     display: grid;
-    grid-template-rows: 30px 30px;
     grid-template-columns: 45% 45%;
     grid-template-areas: "#player1-name #player2-name""#player1-score #player2-score";
     color: var(--custom-brown);
     font-size: 1.3rem;
     text-align: center;
     gap:16px 2px;
-    }
-
-body >div{
-    /* outline:dotted thistle .4px; */
 }
-
 .player-name {
     font-weight: bold;
-    font-size: 1.8rem;
+    font-size: 1.9rem;
 }
-
 .player-score {
     font-size: 2.6rem;
 }
 
-#gameModeContainer {
-    display: flex;
-    flex-direction: row;
-    /* justify-content: center; */
-    align-items: center;
-    gap:30px;
-}
-
-#gameMode button {
-    width:80%;
-    height: 60px;
-    font-size: 1.8em;
-}
-
 @media  screen and (max-width:400px) {
+    .body-wrapper {
+        margin-top: 25px;
+        width: 490px;
+        font-size: 1.4rem;
+    }
+    #top-row-btns {
+        flex-direction: column;
+        align-items: center;
+        gap:8px;
+    }
+    #newGame-btn,#restart-btn {
+        width:90%;
+        font-size: 1.2rem;
+    }
+    .gameBoard {
+        margin-top: 40px;
+    }
     .square {
-        height: 70px;
-        width: 70px;
-        font-size: 35px;
+        height: 75px;
+        width: 75px;
+        font-size: 45px;
     }
     form {
-        width:350px;
+        width:100%;
+        text-align: left;
     }
     dialog {
-        width:350px;
+        width:70%;
+        max-width:290px;
+        padding:10px 15px;
     }
     input {
         font-size: 12px;
@@ -193,36 +202,117 @@ body >div{
     button {
         color:white;
         background-color:var(--custom-brown);
-        padding:6px 3px;
+        padding:8px 0;
         border:none;
         font-size: 1rem;
     }
     .player-name {
-        font-size: 1.2rem;
-    }
-    
+        font-size: 1.6rem;
+    }    
     .player-score {
         font-size: 1.8rem;
-    }
-    #nextTurn {
-        font-size: 1.2rem;
     }
     #scores {
         font-size: 1.3rem;
         text-align: center;
-        gap:10px 2px;        
+        gap:10px 2px;     
+        margin-top: 70px;   
+    }
+    #gameMode {
+        margin-top: 50px;
     }
     #gameModeContainer {
-        gap:30px;
+        flex-direction: column;
+        align-items: center;
+        gap:15px;
     }
-    
     #gameMode button {
-        width:70%;
+        width:90%;
         height: 40px;
-        font-size: 1.2em;
+        font-size: 1.2rem;
+    }
+    #onePlayerNameDialog {
+        margin-top:200px;
+    }
+    #onePlayerNameForm {
+    /* .name-entry { */
+        margin: 0px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap:10px;
     }
     .name-entry {
-        margin: 0px 0;
+        margin: 0;
     }
+    input[type="text"]{
+        font-size:1rem;
+        margin: 6px 0;
+        width:94%;
+    }
+    .play-btn{
+        width:100%;
+        font-size: 1.2rem;
+        margin: 6px 0;
+    }
+    #nextTurn {
+        text-align: center;
+        font-size: 1.6rem;
+    }
+    #scores {
+        grid-template-columns: 49% 49%;
+        grid-template-areas: "#player1-name #player2-name""#player1-score #player2-score";
+        color: var(--custom-brown);
+        font-size: 1.4rem;
+        text-align: center;
+        gap:5px 2px;
+        }
+    #result {
+        font-size: 1.8rem;   
+        padding:10px;
+        margin-top: 425px;
+    }
+    #result-btns-row {
+        margin-top: 4px;
+        gap: 40px;
+    } 
+}
 
+@media  screen and (min-width:550px) {
+    .gameBoard {
+        margin: 70px 0 30px;
+    }
+    .square {
+        height: 120px;
+        width: 120px;
+        font-size: 70px;
+    }
+    #scores {
+        font-size: 1.6rem;
+        gap:18px 6px;
+        margin-top:42px
+    }
+    .player-score {
+        font-size: 2.5rem;
+    }
+    #nextTurn {
+        font-size: 2.1rem;
+    }
+    dialog {
+        padding:9px 0;
+        width: 500px;
+    }
+    #gameMode {
+        margin-top: 338px;
+    }
+    #result {
+        margin-top: 50px;
+        width:550px;
+    }
+    #onePlayerNameDialog {
+        margin-top:275px;
+    }
+    #twoPlayerNameDialog {
+        margin-top: 275px;
+    }
 }

@@ -8,19 +8,30 @@
 </head>
 
 <body>
+<div class="body-wrapper">
+    <div id="top-row-btns">
     <button id = "newGame-btn">New Game</button>
     <button id = "restart-btn">Restart</button>
+</div>
+<div class="gameBoard"></div>
+<!-- Show next player -->
+<div id="nextTurn"></div>
+<!-- Display scores -->
+<div id="scores">
+    <div class="player-name" id="player1-name">Player 1</div>
+    <div class="player-name" id="player2-name">Player 2</div>
+    <div class="player-score" id="player1-score">0</div>
+    <div class="player-score" id="player2-score">0</div>
+</div>
 
-
-    <!-- Choose 1 or 2 Player Game -->
+<!-- Choose 1 or 2 Player Game -->
 <dialog id="gameMode">
     <div id="gameModeContainer">
         <button id="onePlayer-btn">1 Player</button>
         <button id="twoPlayer-btn">2 Players</button>
     </div>
 </dialog>
-
-
+    
 <!-- Enter Name for 1-Player Game -->
 <dialog id="onePlayerNameDialog">
     <form id="onePlayerNameForm">
@@ -31,7 +42,7 @@
         <input class = "play-btn" id="1PlayerStart-btn" type="submit" value="Let's Play!">
     </form>
 </dialog>
-
+    
 <!-- Enter Name for 2-Player Game -->
 <dialog id="twoPlayerNameDialog">
     <form id="twoPlayerNameForm">
@@ -57,22 +68,8 @@
     </div>
 </dialog>
 
-<div class="gameBoard"></div>
 
-<!-- Show next player -->
-<div id="nextTurn"></div>
-
-<!-- Display scores -->
-<div id="scores">
-        <div class="player-name" id="player1-name">Player 1</div>
-        <div class="player-name" id="player2-name">Player 2</div>
-        <div class="player-score" id="player1-score">0</div>
-
-        <div class="player-score" id="player2-score">0</div>
 </div>
-
-
-
 </body>
 
 <script src = "scripts.js"></script>

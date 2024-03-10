@@ -383,8 +383,6 @@ function restartGame() {   //Resets everything at end of game
     new2Game();
  }
 }
-
-
 function exitGame() {   //Resets everything at end of game
     result.close();
     compGame=false;
@@ -414,6 +412,7 @@ function computerMoveLogic(p2marker) {
         else if (myBoard[2] != undefined && myBoard[1]===myBoard[2]&&myBoard[1]==undefined){
             myBoard[1]=p2marker;
         }
+
         else if (myBoard[3] != undefined && myBoard[3]===myBoard[4]&&myBoard[5]==undefined){
             myBoard[5]=p2marker;
         }
@@ -423,6 +422,7 @@ function computerMoveLogic(p2marker) {
         else if (myBoard[4] != undefined && myBoard[4]===myBoard[5]&&myBoard[3]==undefined){
             myBoard[3]=p2marker;
         }   
+
         else if (myBoard[6] != undefined && myBoard[6]===myBoard[7]&&myBoard[8]==undefined){
             myBoard[8]=p2marker;
         }
@@ -432,6 +432,7 @@ function computerMoveLogic(p2marker) {
         else if (myBoard[7] != undefined && myBoard[7]===myBoard[8]&&myBoard[6]==undefined){
             myBoard[6]=p2marker;
         }    
+
         else if (myBoard[0] != undefined && myBoard[0]===myBoard[3]&&myBoard[6]==undefined){
             myBoard[6]=p2marker;
            }
@@ -441,6 +442,7 @@ function computerMoveLogic(p2marker) {
         else if (myBoard[3] != undefined && myBoard[3]===myBoard[6]&&myBoard[0]==undefined){
             myBoard[0]=p2marker;
         }
+
         else if (myBoard[1] != undefined && myBoard[1]===myBoard[4]&&myBoard[8]==undefined){
             myBoard[8]=p2marker;
         }
@@ -450,6 +452,7 @@ function computerMoveLogic(p2marker) {
         else if (myBoard[4] != undefined && myBoard[4]===myBoard[8]&&myBoard[1]==undefined){
             myBoard[1]=p2marker;
         }
+
         else if (myBoard[2] != undefined && myBoard[2]===myBoard[5]&&myBoard[8]==undefined){
             myBoard[8]=p2marker;
         }
@@ -459,6 +462,7 @@ function computerMoveLogic(p2marker) {
         else if (myBoard[5] != undefined && myBoard[5]===myBoard[8]&&myBoard[2]==undefined){
             myBoard[2]=p2marker;
         }
+
         else if (myBoard[0] != undefined && myBoard[0]===myBoard[4]&&myBoard[8]==undefined){
             myBoard[8]=p2marker;
         }
@@ -468,6 +472,7 @@ function computerMoveLogic(p2marker) {
         else if (myBoard[4] != undefined && myBoard[4]===myBoard[8]&&myBoard[0]==undefined){
             myBoard[0]=p2marker;
         }
+
         else if (myBoard[2] != undefined && myBoard[2]===myBoard[4]&&myBoard[6]==undefined){
             myBoard[6]=p2marker;
         }
